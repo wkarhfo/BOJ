@@ -1,65 +1,65 @@
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class BOJ_효율적인해킹 {
-   static ArrayList<Integer> list[] = (ArrayList<Integer>[]) new ArrayList[10001];
-   static boolean[] visit;
-   static int num;
-   static int[] arr;
 
-   public static void main(String[] args) {
-      Scanner sc = new Scanner(System.in);
-      num = sc.nextInt();
-      arr = new int[10001];
-      
-      for (int i = 1; i < 10001; i++) {
-         list[i] = new ArrayList<Integer>();
-      }
-      int order = sc.nextInt();
-      for (int i = 0; i < order; i++) {
-         int end = sc.nextInt();
-         int start = sc.nextInt();
-         list[start].add(end);
-      }
-      
-      
-      
-      for (int i = 1; i < 10001; i++) {
-         bfs(i);
-      }
-      
-      int max = 0;
-      for(int i=1;i<arr.length;i++) {
-         if(max < arr[i])
-            max = arr[i];
-      }
-      
-      for(int i =1; i < arr.length; i++) {
-         if(max == arr[i])
-            System.out.print(i + " ");
-      }
-   }
+	static int n, m;
+	static ArrayList<Integer>[] list;
+	static int[] dp;
+	static boolean[] visited;
+	static int max = Integer.MIN_VALUE;
 
-   static void bfs(int idx) {
-      visit = new boolean[10001];
-      Queue<Integer> q = new LinkedList<>();
-      q.add(idx);
-      visit[idx] = true;
-      while (!q.isEmpty()) {
-         int temp = q.poll();
-         for (int k = 0; k < list[temp].size(); k++) {
-            int v = list[temp].get(k);
-            if (visit[v] == false) {
-               arr[idx]++;
-               visit[v] = true;
-               q.add(v);
-            }
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-         }
-      }
-   }
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+
+		list = new ArrayList[n + 1];
+		dp = new int[n + 1];
+
+		for (int i = 0; i <= n; i++) {
+			list[i] = new ArrayList<>();
+		}
+
+		for (int i = 0; i < m; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			list[a].add(b);
+		}
+		for (int i = 1; i <= n; i++) {
+			visited = new boolean[n + 1];
+			solve(i);
+		}
+
+		for (int i = 1; i <= n; i++) {
+			max = Math.max(max, dp[i]);
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		for (int i = 1; i <= n; i++) {
+			if (dp[i] == max)
+				sb.append(i + " ");
+		}
+		System.out.println(sb.toString());
+	}
+
+	static void solve(int cur) {
+		visited[cur] = true;
+
+		for (int next : list[cur]) {
+			if (visited[next])
+				continue;
+			dp[next]++;
+			solve(next);
+		}
+	}
 
 }
-
