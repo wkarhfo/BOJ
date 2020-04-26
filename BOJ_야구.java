@@ -24,20 +24,21 @@ public class BOJ_야구 {
 				arr[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-
+		
 		dfs(1);
 		System.out.println(MAX);
 	}
 
 	static void dfs(int depth) {
 		if (depth == 10) {
-			System.out.println(Arrays.toString(order));
+//			System.out.println(Arrays.toString(order));
 			int score = 0;
 			int idx = 1; // 첫이닝은 1번부터 시작
 			boolean[] base = new boolean[3 + 1]; // 시작할때 주자는 한명도 없기에 0
 
 			for (int i = 0; i < N; i++) {
 //				System.out.println(Arrays.toString(arr[i]));
+				Arrays.fill(base, false);
 				int out = 0;
 				while (true) {
 					if (out == 3) // 아웃이 3번이면 이닝이 끝
