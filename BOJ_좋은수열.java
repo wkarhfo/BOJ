@@ -37,7 +37,7 @@ public class BOJ_좋은수열 {
 		}
 	}
 
-	static boolean check(int depth) { // 중복이 있는지 체크
+	static boolean check(int depth) { // 중복체크
 		for (int i = 2; i <= depth / 2; i++) {
 			for (int j = 0; j <= depth - i; j++) {
 				int count = 0;
